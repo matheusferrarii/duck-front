@@ -19,5 +19,5 @@ Este repositório contém a interface de usuário que consome serviços e exibe 
 2. Instale as dependências:
 npm install
 
-3.Rode o codigo:
+4. Rode o codigo:
 npm run start
