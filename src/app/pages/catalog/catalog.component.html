@@ -1,0 +1,153 @@
+<div class="wrapper">
+  <img src="missao1.jpeg" class="background-image" />
+
+  <button class="btn-home" (click)="playQuackSound('voltar')">&larr;</button>
+
+  <div class="overlay"></div>
+
+  <div class="content-overlay">
+    <h1>Catalogar Patos Primordiais</h1>
+    <p>Cadastre drones e registros dos patos. Use os cards abaixo para criar, listar e adicionar poderes.</p>
+
+    <div class="grid">
+      <div class="card">
+        <h2>Drones</h2>
+        <form [formGroup]="droneForm" (ngSubmit)="createDrone()">
+          <div class="field">
+            <input formControlName="serial" placeholder="Serial" />
+          </div>
+          <div class="field">
+            <input formControlName="marca" placeholder="Marca" />
+          </div>
+          <div class="field">
+            <input formControlName="fabricante" placeholder="Fabricante" />
+          </div>
+          <div class="field inline">
+            <input formControlName="pais_origem" placeholder="País origem" />
+            <button class="btn primary" type="submit" [disabled]="droneForm.invalid">Adicionar</button>
+          </div>
+        </form>
+
+        <ul class="list">
+          <li *ngFor="let d of drones">
+            <div class="left">
+              <strong>{{ d.serial }}</strong>
+              <span class="muted">{{ d.marca }} • {{ d.fabricante }} • {{ d.pais_origem }}</span>
+            </div>
+            <div class="right">
+              <button class="btn ghost" (click)="fillDroneForm(d)">Editar</button>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>Patos Primordiais</h2>
+        <form [formGroup]="patoForm" (ngSubmit)="createPato()">
+          <div class="field">
+            <select formControlName="drone_id">
+              <option value="">Selecionar drone</option>
+              <option *ngFor="let d of drones" [value]="d.id">{{ d.serial }} — {{ d.pais_origem }}</option>
+            </select>
+          </div>
+
+          <div class="field row">
+            <input formControlName="altura_value" placeholder="Altura" />
+            <select formControlName="altura_unit">
+              <option value="cm">cm</option>
+              <option value="m">m</option>
+              <option value="ft">ft</option>
+            </select>
+          </div>
+
+          <div class="field row">
+            <input formControlName="peso_value" placeholder="Peso" />
+            <select formControlName="peso_unit">
+              <option value="g">g</option>
+              <option value="kg">kg</option>
+              <option value="lb">lb</option>
+            </select>
+          </div>
+
+          <div class="field row">
+            <input formControlName="cidade" placeholder="Cidade" />
+            <input formControlName="pais" placeholder="País" />
+          </div>
+
+          <div class="field row">
+            <input formControlName="latitude" placeholder="Latitude" />
+            <input formControlName="longitude" placeholder="Longitude" />
+          </div>
+
+          <div class="field row">
+            <input formControlName="precisao_value" placeholder="Precisão" />
+            <select formControlName="precisao_unit">
+              <option value="m">m</option>
+              <option value="cm">cm</option>
+              <option value="yd">yd</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <select formControlName="status">
+              <option value="">Status</option>
+              <option value="desperto">desperto</option>
+              <option value="transe">transe</option>
+              <option value="hibernacao_profunda">hibernacao_profunda</option>
+            </select>
+          </div>
+
+          <div class="field row">
+            <input formControlName="batimentos" placeholder="Batimentos (bpm)" />
+            <input formControlName="mutacoes" placeholder="Mutações" />
+          </div>
+
+          <div class="field inline">
+            <button class="btn primary" type="submit" [disabled]="patoForm.invalid">Cadastrar Pato</button>
+            <button class="btn ghost" type="button" (click)="resetPatoForm()">Limpar</button>
+          </div>
+        </form>
+
+        <ul class="list">
+          <li *ngFor="let p of patos" class="pato-item">
+            <div class="left">
+              <div class="title">{{ p.cidade }}, {{ p.pais }}</div>
+              <div class="meta">Altura: {{ p.altura_cm | number:'1.0-2' }} cm • Peso: {{ p.peso_g | number:'1.0-0' }} g</div>
+              <div class="meta">Status: {{ p.status }} • Mutações: {{ p.mutacoes }}</div>
+            </div>
+
+            <div class="right">
+              <button class="btn small" (click)="openPowerForm(p)">Adicionar Poder</button>
+              <button class="btn danger" (click)="deletePato(p.id)">Excluir</button>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="power-form" *ngIf="powerVisible">
+      <div class="power-card">
+        <h3>Adicionar Poder ao Pato #{{ selectedPato?.id }}</h3>
+        <form [formGroup]="powerForm" (ngSubmit)="addPower()">
+          <div class="field">
+            <input formControlName="nome" placeholder="Nome do poder" />
+          </div>
+          <div class="field">
+            <input formControlName="descricao" placeholder="Descrição" />
+          </div>
+          <div class="field">
+            <input formControlName="classificacao" placeholder="Classificação (ex: bélico, raro)" />
+          </div>
+          <div class="actions">
+            <button class="btn primary" type="submit" [disabled]="powerForm.invalid">Salvar Poder</button>
+            <button class="btn ghost" type="button" (click)="closePowerForm()">Cancelar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+  </div>
+          <a href="https://www.linkedin.com/in/matheus-floresti-ferrari-17572a287" target="_blank" class="btn-linkedin">
+  <img src="linkedin-icon.png" alt="LinkedIn" />
+</a>
+</div>
