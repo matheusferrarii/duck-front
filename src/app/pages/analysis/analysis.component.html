@@ -1,0 +1,74 @@
+<div class="wrapper">
+  <img src="missao2.jpeg" class="background-image" />
+  <button class="btn-home" (click)="playQuackSound('voltar')">&larr;</button>
+  <div class="overlay"></div>
+
+  <div class="content-overlay">
+    <h1>Análises Operacionais</h1>
+    <p>Calcule custo, risco e valor científico dos Patos Primordiais e gere recomendações para captura.</p>
+
+    <div class="controls">
+      <div class="select-wrap">
+        <label>Selecionar Pato</label>
+        <select [(ngModel)]="selectedPatoId">
+          <option value="">-- Todos --</option>
+          <option *ngFor="let p of patos" [value]="p.id">{{ p.id }} — {{ p.cidade }}, {{ p.pais }}</option>
+        </select>
+      </div>
+
+      <div class="buttons">
+        <button class="btn primary" (click)="runAnalysis()">Executar Análise</button>
+        <button class="btn ghost" (click)="runAllAnalysis()">Analisar Todos</button>
+      </div>
+    </div>
+
+    <div class="grid">
+      <div class="card stat-card" *ngFor="let r of results">
+        <div class="stat-head">
+          <div class="title">Pato #{{ r.id }}</div>
+          <div class="subtitle">{{ r.local }}</div>
+        </div>
+        <div class="stat-body">
+          <div class="row"><span>Risco</span><strong>{{ r.risco_est }}%</strong></div>
+          <div class="row"><span>Custo Est.</span><strong>{{ r.custo_operacional_est | number:'1.0-0' }}</strong></div>
+          <div class="row"><span>Valor Científico</span><strong>{{ r.valor_cientifico_est | number:'1.0-0' }}</strong></div>
+        </div>
+        <div class="stat-foot">
+          <button class="btn small" (click)="openDetails(r)">Ver Plano</button>
+        </div>
+      </div>
+
+      <div class="card empty" *ngIf="results.length === 0">
+        <div class="empty-inner">
+          <div class="icon">⚙️</div>
+          <div class="msg">Nenhuma análise disponível. Execute uma análise para gerar resultados.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="detail-modal" *ngIf="detailVisible">
+      <div class="detail-card">
+        <div class="detail-top">
+          <div class="title">Plano para Pato #{{ detail.id }}</div>
+          <button class="btn ghost" (click)="closeDetails()">Fechar</button>
+        </div>
+        <div class="detail-body">
+          <div class="line"><strong>Risco estimado:</strong> {{ detail.risco_est }}%</div>
+          <div class="line"><strong>Custo operacional estimado:</strong> {{ detail.custo_operacional_est | number:'1.0-0' }}</div>
+          <div class="line"><strong>Valor científico estimado:</strong> {{ detail.valor_cientifico_est | number:'1.0-0' }}</div>
+          <div class="line" *ngIf="plan">
+            <strong>Plano resumido:</strong>
+            <div class="plan-steps">
+              <div *ngFor="let s of plan.steps" class="step">• {{ s }}</div>
+            </div>
+            <div class="transport">Transporte: {{ plan.transporte_sugerido }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+          <a href="https://www.linkedin.com/in/matheus-floresti-ferrari-17572a287" target="_blank" class="btn-linkedin">
+  <img src="linkedin-icon.png" alt="LinkedIn" />
+</a>
+</div>

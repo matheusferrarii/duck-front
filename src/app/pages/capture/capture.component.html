@@ -1,0 +1,62 @@
+<div class="wrapper">
+  <img src="missao3.jpeg" class="background-image" />
+  <button class="btn-home" (click)="playQuackSound('voltar')">&larr;</button>
+  <div class="overlay"></div>
+
+  <div class="content-overlay">
+    <h1>Missão: Captura</h1>
+    <p>Controle os planos de captura, verifique o status do drone e acione defesas aleatórias contra superpoderes.</p>
+
+    <div class="controls">
+      <div class="select-wrap">
+        <label>Selecionar Pato</label>
+        <select [(ngModel)]="selectedPatoId">
+          <option value="">-- Selecionar --</option>
+          <option *ngFor="let p of patos" [value]="p.id">{{ p.id }} — {{ p.cidade }}, {{ p.pais }}</option>
+        </select>
+      </div>
+
+      <div class="group-buttons">
+        <button class="btn primary" (click)="requestPlan()">Gerar Plano</button>
+        <button class="btn" (click)="getDroneStatus()">Status Drone</button>
+        <button class="btn ghost" (click)="getRandomDefense()">Defesa Aleatória</button>
+      </div>
+    </div>
+
+    <div class="cards">
+      <div class="mission-card">
+        <h2>Plano Atual</h2>
+        <div class="mission-body" *ngIf="plan">
+          <div class="line"><strong>Pato:</strong> #{{ plan.id }}</div>
+          <div class="line"><strong>Transporte:</strong> {{ plan.transporte_sugerido }}</div>
+          <div class="steps">
+            <div *ngFor="let s of plan.steps" class="step">• {{ s }}</div>
+          </div>
+        </div>
+        <div class="empty" *ngIf="!plan">Nenhum plano gerado</div>
+      </div>
+
+      <div class="mission-card">
+        <h2>Status do Drone</h2>
+        <div class="mission-body" *ngIf="droneStatus">
+          <div class="line"><span>Bateria</span><strong>{{ droneStatus.bateria }}</strong></div>
+          <div class="line"><span>Combustível</span><strong>{{ droneStatus.combustivel }}</strong></div>
+          <div class="line"><span>Integridade</span><strong>{{ droneStatus.integridade_fisica }}</strong></div>
+        </div>
+        <div class="empty" *ngIf="!droneStatus">Sem dados do drone</div>
+      </div>
+    </div>
+
+    <div class="defense-toast" *ngIf="defense">
+      <div class="defense-card">
+        <div class="def-title">Defesa Aleatória Ativada</div>
+        <div class="def-body">{{ defense.defesa }}</div>
+        <button class="btn small" (click)="closeDefense()">OK</button>
+      </div>
+    </div>
+
+  </div>
+          <a href="https://www.linkedin.com/in/matheus-floresti-ferrari-17572a287" target="_blank" class="btn-linkedin">
+  <img src="linkedin-icon.png" alt="LinkedIn" />
+</a>
+</div>
